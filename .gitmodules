@@ -1,0 +1,4 @@
+[submodule "dsh-compact"]
+	path = dsh-compact
+	url = ../dsh-compact.git
+	branch = main
