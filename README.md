@@ -6,7 +6,7 @@
 
 | 仓库 | 状态 | 目标 |
 | --- | --- | --- |
-| [`dsh-compact`](dsh-compact/) | 骨架 | 优化上下文压缩、信息保真和 token 使用 |
+| [`improved-compact`](improved-compact/) | 候选 | 优化上下文压缩、信息保真和 token 使用 |
 | `dsh-eval` | 规划中 | 提供可复现实验、回归评测和候选晋级机制 |
 | `dsh-memory` | 规划中 | 整理带来源的长期记忆，并支持巩固、遗忘和检索 |
 | `dsh-skill-evolution` | 规划中 | 生成、评审和晋级 skill 候选版本 |
@@ -27,7 +27,7 @@ git submodule status --recursive
 git submodule update --init --recursive
 ```
 
-`dsh-compact` 使用相对远程地址 `../dsh-compact.git`，适合总控仓库和插件仓库位于同一个 GitHub 组织或用户下。如果实际托管位置不同，应在首次推送前修改 [`.gitmodules`](.gitmodules)。
+`improved-compact` 使用相对远程地址 `../improved-compact.git`，适合总控仓库和插件仓库位于同一个 GitHub 组织或用户下。如果实际托管位置不同，应在首次推送前修改 [`.gitmodules`](.gitmodules)。
 
 ## 连接 GitHub 远程
 
@@ -35,8 +35,8 @@ git submodule update --init --recursive
 
 ```powershell
 $githubOwner = '<github-user-or-organization>'
-git -C dsh-compact remote add origin "https://github.com/$githubOwner/dsh-compact.git"
-git -C dsh-compact push -u origin main
+git -C improved-compact remote add origin "https://github.com/$githubOwner/improved-compact.git"
+git -C improved-compact push -u origin main
 
 git remote add origin "https://github.com/$githubOwner/dsh-plugins.git"
 git submodule sync --recursive
@@ -50,7 +50,7 @@ git push -u origin main
 进入目标插件，在插件仓库中创建分支、提交代码并运行检查：
 
 ```powershell
-cd dsh-compact
+cd improved-compact
 pnpm install
 pnpm run check
 ```
