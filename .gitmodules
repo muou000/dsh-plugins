@@ -2,3 +2,8 @@
 	path = improved-compact
 	url = ../improved-compact.git
 	branch = main
+
+[submodule "dsh-memory"]
+	path = dsh-memory
+	url = ../dsh-memory.git
+	branch = main
