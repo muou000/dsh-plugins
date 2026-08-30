@@ -9,6 +9,8 @@
 | [`improved-compact`](improved-compact/) | 开发候选，不自动晋级 | 已兼容当前 DSH，并增加请求上下文预算、可选输出上限和 8 KiB 工具结果外置默认值；压缩候选保真更高，但 token 节省和延迟仍弱于原生基线 |
 | [`dsh-eval`](dsh-eval/) | 开发候选 | 已交付配对评测、内容身份、外部世界评分和本地 policy gate，并通过当前 DSH Session 事件兼容 smoke；自动晋级仍需外部隔离与可信 telemetry |
 | [`dsh-memory`](dsh-memory/) | 开发候选 | 已交付带来源、作用域和治理的长期记忆，并将同步 Markdown 投影改为增量发布；10k 记录 keyless 基准通过，真实模型收益仍未验证 |
+| [`dsh-model-router`](dsh-model-router/) | 开发候选，不自动晋级 | 按直接用户消息做确定性模型路由，在整轮工具续接期间固定选择，并用公开解析接口在模型调用前校验；尚未证明质量、成本或缓存收益 |
+| [`dsh-code-index`](dsh-code-index/) | 开发候选 | 提供有边界的按需 `code_index` 导航工具，减少反复广泛搜索和读取；基于词法声明/导入索引，不替代 `read`、编译器或 LSP |
 | `dsh-skill-evolution` | 规划中 | 生成、评审和晋级 skill 候选版本 |
 
 路线与先后关系见 [`docs/ROADMAP.md`](docs/ROADMAP.md)。
@@ -42,6 +44,12 @@ git -C improved-compact push -u origin main
 
 git -C dsh-eval remote add origin "https://github.com/$githubOwner/dsh-eval.git"
 git -C dsh-eval push -u origin main
+
+git -C dsh-model-router remote add origin "https://github.com/$githubOwner/dsh-model-router.git"
+git -C dsh-model-router push -u origin main
+
+git -C dsh-code-index remote add origin "https://github.com/$githubOwner/dsh-code-index.git"
+git -C dsh-code-index push -u origin main
 
 git remote add origin "https://github.com/$githubOwner/dsh-plugins.git"
 git submodule sync --recursive

@@ -12,3 +12,13 @@
 	path = dsh-eval
 	url = ../dsh-eval.git
 	branch = main
+
+[submodule "dsh-model-router"]
+	path = dsh-model-router
+	url = ../dsh-model-router.git
+	branch = main
+
+[submodule "dsh-code-index"]
+	path = dsh-code-index
+	url = ../dsh-code-index.git
+	branch = main
