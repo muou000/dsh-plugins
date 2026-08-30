@@ -47,7 +47,7 @@
 | 插件 | 当前固定版本 | 回滚版本 |
 | --- | --- | --- |
 | `improved-compact` | `b5dea4fb115068e5c3efcf44973b25c28801fabc` | `b19e1777f790a76bb513d3d5790c0fe5687aa2af` |
-| `dsh-memory` | `fc90171eda4347a8727b038f078393dcf66039c7` | `7e2d03f5ecced0c35580d8d7513c37d658385bd5` |
+| `dsh-memory` | `9063685a3a62c4e451fd7311894f51daf38da3e0` | `7e2d03f5ecced0c35580d8d7513c37d658385bd5` |
 | `dsh-eval` | `b2e5110eefa3d9e0c8d749f46deef7d88f88eb5f` | `7fe79034a81af50bc60a176173a21b1e9608bf5e` |
 
 回滚以插件仓库提交为单位，再更新顶层 gitlink；不需要修改 DSH 本体。跨插件启用顺序为：先部署 `dsh-eval` 的观测与 gate，再启用 `improved-compact` 的预算/spill，最后启用 `dsh-memory` 的增量投影。
