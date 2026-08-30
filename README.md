@@ -6,13 +6,14 @@
 
 | 仓库 | 状态 | 目标 |
 | --- | --- | --- |
-| [`improved-compact`](improved-compact/) | 未晋级候选 | 旧开发集显示质量提升但 token 节省下降，当前 DSH 复跑被 API 漂移阻断；保留历史，等待新保留集重评 |
-| [`dsh-eval`](dsh-eval/) | 开发候选 | 已交付配对评测、内容身份、外部世界评分和本地 policy gate，源码 CLI / built SDK keyless 组合均通过；自动晋级仍需外部隔离与可信 telemetry |
-| [`dsh-memory`](dsh-memory/) | 开发候选 | 已交付带来源、作用域和治理的长期记忆；真实模型 pilot 只证明 smoke，尚不能泛化 |
+| [`improved-compact`](improved-compact/) | 开发候选，不自动晋级 | 已兼容当前 DSH，并增加请求上下文预算、可选输出上限和 8 KiB 工具结果外置默认值；压缩候选保真更高，但 token 节省和延迟仍弱于原生基线 |
+| [`dsh-eval`](dsh-eval/) | 开发候选 | 已交付配对评测、内容身份、外部世界评分和本地 policy gate，并通过当前 DSH Session 事件兼容 smoke；自动晋级仍需外部隔离与可信 telemetry |
+| [`dsh-memory`](dsh-memory/) | 开发候选 | 已交付带来源、作用域和治理的长期记忆，并将同步 Markdown 投影改为增量发布；10k 记录 keyless 基准通过，真实模型收益仍未验证 |
 | `dsh-skill-evolution` | 规划中 | 生成、评审和晋级 skill 候选版本 |
 
 路线与先后关系见 [`docs/ROADMAP.md`](docs/ROADMAP.md)。
 文章和现有插件的复用/禁用边界见 [`docs/EVOLUTION_REUSE.md`](docs/EVOLUTION_REUSE.md)。
+本轮上下文与 token 成本改造、实测结果和未覆盖边界见 [`docs/CONTEXT_COST_OPTIMIZATION_2026-08-30.md`](docs/CONTEXT_COST_OPTIMIZATION_2026-08-30.md)。
 
 ## 获取仓库
 
