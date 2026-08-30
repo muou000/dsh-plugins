@@ -15,12 +15,16 @@
 
 ### `dsh-eval`
 
+状态：本地可信进程 provider 的开发候选已完成。keyless 校准、源码 Loader、生命周期、干净 tarball smoke，以及相邻 DSH 的源码 CLI / built SDK keyless 真实进程组合均已通过；真实模型、Unix、外部沙箱和 canary 仍未完成。所有本地报告固定为 `promotionEligible: false`。
+
 - 定义任务案例、回放 fixture、评分器、运行 manifest 和差异报告。
 - 支持基线/候选配对运行、重复采样、成本和延迟统计。
 - 从外部世界状态验证代码任务结果，提供 keyless 与真实模型两条通道。
 - 固定评测器版本，防止候选修改数据或评分逻辑。
 
 ### `improved-compact`
+
+状态：保留为未晋级候选。既有 4-case 开发集显示任务检查提升但 token 节省退化，最终 runner/build 又无法由 Git 精确重建；当前 DSH alpha 复跑还受 `CallId` API 漂移阻断。在同 runner、未见 test 集和预注册多指标门槛完成前，不删除也不晋级。
 
 - 建立 DSH 当前压缩策略的可复现基线。
 - 分离区域选择、token 预算、摘要生成、验证和落盘事件。
@@ -33,6 +37,8 @@
 
 ### `dsh-memory`
 
+状态：治理、检索、回放、Loader、pack 与 keyless 验收已实现。既有真实模型 pilot 只有一个任务族且固定 baseline→candidate 顺序，不能支撑通用提升；下一项候选优化必须先用 `dsh-eval` 测量同步 Markdown 全量投影的实际 mutation/startup 成本。
+
 - 定义工作、情节、语义和程序性记忆的数据模型与作用域。
 - 建立带来源的提取、去重、冲突、更正、巩固、遗忘和删除流程。
 - 将检索结果作为可追踪的模型输入写入 session log。
@@ -41,6 +47,8 @@
 完成条件：在长周期代码任务中提高后续成功率或减少重复探索，且无跨作用域泄漏和不可更正的错误记忆。
 
 ## Phase 3：Skill 演化
+
+生成、状态、审批和外部 runner 的复用选择按 [`EVOLUTION_REUSE.md`](EVOLUTION_REUSE.md) 执行；任何外部组件都不能绕过 `dsh-eval` 或把启发式 replay 分数升级为晋级证据。
 
 ### `dsh-skill-evolution`
 

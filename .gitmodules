@@ -7,3 +7,8 @@
 	path = dsh-memory
 	url = ../dsh-memory.git
 	branch = main
+
+[submodule "dsh-eval"]
+	path = dsh-eval
+	url = ../dsh-eval.git
+	branch = main

@@ -6,12 +6,13 @@
 
 | 仓库 | 状态 | 目标 |
 | --- | --- | --- |
-| [`improved-compact`](improved-compact/) | 候选 | 优化上下文压缩、信息保真和 token 使用 |
-| `dsh-eval` | 规划中 | 提供可复现实验、回归评测和候选晋级机制 |
-| `dsh-memory` | 规划中 | 整理带来源的长期记忆，并支持巩固、遗忘和检索 |
+| [`improved-compact`](improved-compact/) | 未晋级候选 | 旧开发集显示质量提升但 token 节省下降，当前 DSH 复跑被 API 漂移阻断；保留历史，等待新保留集重评 |
+| [`dsh-eval`](dsh-eval/) | 开发候选 | 已交付配对评测、内容身份、外部世界评分和本地 policy gate，源码 CLI / built SDK keyless 组合均通过；自动晋级仍需外部隔离与可信 telemetry |
+| [`dsh-memory`](dsh-memory/) | 开发候选 | 已交付带来源、作用域和治理的长期记忆；真实模型 pilot 只证明 smoke，尚不能泛化 |
 | `dsh-skill-evolution` | 规划中 | 生成、评审和晋级 skill 候选版本 |
 
 路线与先后关系见 [`docs/ROADMAP.md`](docs/ROADMAP.md)。
+文章和现有插件的复用/禁用边界见 [`docs/EVOLUTION_REUSE.md`](docs/EVOLUTION_REUSE.md)。
 
 ## 获取仓库
 
@@ -27,16 +28,19 @@ git submodule status --recursive
 git submodule update --init --recursive
 ```
 
-`improved-compact` 使用相对远程地址 `../improved-compact.git`，适合总控仓库和插件仓库位于同一个 GitHub 组织或用户下。如果实际托管位置不同，应在首次推送前修改 [`.gitmodules`](.gitmodules)。
+各插件使用形如 `../dsh-eval.git` 的相对远程地址，适合总控仓库和插件仓库位于同一个 GitHub 组织或用户下。如果实际托管位置不同，应在首次推送前修改 [`.gitmodules`](.gitmodules)。
 
 ## 连接 GitHub 远程
 
-本地初始化不会代替你创建 GitHub 仓库。创建两个空远程仓库后，先推送插件，再推送引用它的顶层仓库：
+本地初始化不会代替你创建 GitHub 仓库。创建对应空远程仓库后，先推送插件，再推送引用它的顶层仓库：
 
 ```powershell
 $githubOwner = '<github-user-or-organization>'
 git -C improved-compact remote add origin "https://github.com/$githubOwner/improved-compact.git"
 git -C improved-compact push -u origin main
+
+git -C dsh-eval remote add origin "https://github.com/$githubOwner/dsh-eval.git"
+git -C dsh-eval push -u origin main
 
 git remote add origin "https://github.com/$githubOwner/dsh-plugins.git"
 git submodule sync --recursive
@@ -69,5 +73,6 @@ pnpm run check
 - [`docs/PLUGIN_STANDARD.md`](docs/PLUGIN_STANDARD.md)：插件仓库、运行时和发布契约。
 - [`docs/EVALUATION.md`](docs/EVALUATION.md)：实验设计、指标和候选晋级门槛。
 - [`docs/ROADMAP.md`](docs/ROADMAP.md)：能力分层及实施顺序。
+- [`docs/EVOLUTION_REUSE.md`](docs/EVOLUTION_REUSE.md)：自进化生成、评测、审批、sandbox 组件的版本化复用决策。
 
 DSH 上游源码不属于本仓库的 submodule，也不是插件可以随意修改的内部实现。需要联调时可以另行 checkout；插件应依赖 DSH 的公开包、服务和事件扩展点。
