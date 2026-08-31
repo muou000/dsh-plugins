@@ -51,9 +51,9 @@
 - 默认只暴露 `mcp__codegraph__codegraph_explore`，先用图结果减少盲目广搜，再由权威 `read`、编译器或测试确认细节。
 - 每次调用必须显式传入与当前 session 工作区规范路径完全相同的 `projectPath`；跨工作区、无 Agent、相对或不存在的路径在 MCP 分派前拒绝。
 - 固定并校验独立 CodeGraph 运行时，关闭 telemetry 和自动更新检查；索引由 operator 初始化，agent 不创建、修改或删除索引。
-- 用 held-out coding tasks 比较普通搜索、原 `dsh-code-index` 与 CodeGraph 三条路径的工具轮次、token、延迟、正确性、过期索引和隐私事件。
+- 用 held-out coding tasks 比较普通 DSH 文件搜索与 CodeGraph 两条路径的工具轮次、token、延迟、正确性、过期索引和隐私事件。
 
-`dsh-code-index` 保留在提交 `534d35f93554094eea8f7b91fa48a0cc3170f922` 作为无需外部运行时的回滚基线，profile 中不与 CodeGraph 同时启用。
+`dsh-code-index` 已于 2026-08-31 从组合仓库和本机 preset 移除。CodeGraph 未初始化或停用时，回退到 DSH 自带的文件搜索与读取工具；历史实现和测试证据仍保留在独立仓库及带日期的实验报告中。
 
 完成条件：在未见任务上减少无效探索而不降低代码正确性、作用域隔离、启动稳定性和可回滚性。
 
@@ -86,7 +86,7 @@
 ## Phase 4：受控闭环优化
 
 - 用 `dsh-eval` 统一比较 memory、skill 和 compaction 的组合效果。
-- 将 `dsh-model-router` 与 `dsh-codegraph` 作为可独立关闭的基础能力纳入同一评测矩阵，并保留 `dsh-code-index` 对照；不把启用成功当作收益证明。
+- 将 `dsh-model-router` 与 `dsh-codegraph` 作为可独立关闭的基础能力纳入同一评测矩阵，并以普通 DSH 文件工具作为 CodeGraph 对照；不把启用成功当作收益证明。
 - 使用影子运行积累候选证据，限制自动修改频率和影响范围。
 - 只有低风险、可回滚且达到统计门槛的候选允许策略自动晋级。
 - 对数据漂移、模型版本变化、成本异常和安全事件设置熔断。

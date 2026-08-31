@@ -14,7 +14,6 @@
 | Phase 1 | [`improved-compact`](improved-compact/) | 上下文预算、工具结果外置和压缩候选 | 开发候选，不自动晋级；保真较高，但 token 节省和延迟尚未达到原生基线 |
 | Phase 1 | [`dsh-model-router`](dsh-model-router/) | 确定性、整轮稳定的模型路由 | 开发候选，不自动晋级；真实 provider 的质量、成本和缓存收益尚未验证 |
 | Phase 1 | [`dsh-codegraph`](dsh-codegraph/) | 官方 CodeGraph 的工作区隔离 DSH 适配 | 当前代码导航实现；本机 `web` / `headless` profile 已启用 |
-| Phase 1 | [`dsh-code-index`](dsh-code-index/) | 无外部运行时的内存词法导航 | 回滚与配对评测基线；profile 未启用，不与 `dsh-codegraph` 同时启用 |
 | Phase 2 | [`dsh-memory`](dsh-memory/) | 带来源、作用域、治理和回放的长期记忆 | 开发候选；keyless 基准通过，通用真实模型收益尚未验证 |
 
 ### 规划项
@@ -33,7 +32,6 @@
 | `dsh-eval` | 已有并已纳入 submodule | 已存在 | 当前 `main` 和 gitlink 已推送 |
 | `dsh-memory` | 已有并已纳入 submodule | 已存在 | 当前 `main` 和 gitlink 已推送 |
 | `dsh-model-router` | 已有并已纳入 submodule | 已存在 | 当前 `main` 和 gitlink 已推送；原本地裸仓库远程保留为 `local` |
-| `dsh-code-index` | 已有并已纳入 submodule | 已存在，仓库名为 `dsh-codeindex` | `.gitmodules` 显式映射远程名称；本地目录、包名和插件名保持 `dsh-code-index` |
 | `dsh-codegraph` | 已有并已纳入 submodule | 已存在 | 当前 `main` 和 gitlink 已推送；原本地裸仓库远程保留为 `local` |
 | `dsh-skill-evolution` | 尚未建立 | 暂不需要 | 保持为路线图规划项，不加入 `.gitmodules` |
 
@@ -57,7 +55,7 @@ git submodule status --recursive
 git submodule update --init --recursive
 ```
 
-各插件使用形如 `../dsh-eval.git` 的相对远程地址，适合总控仓库和插件仓库位于同一个 GitHub 组织或用户下。`dsh-code-index` 因远程仓库实际命名为 `dsh-codeindex`，在 [`.gitmodules`](.gitmodules) 中保留了显式映射。如果实际托管位置不同，应在首次推送前修改对应 URL。
+各插件使用形如 `../dsh-eval.git` 的相对远程地址，适合总控仓库和插件仓库位于同一个 GitHub 组织或用户下。如果实际托管位置不同，应在首次推送前修改对应 URL。
 
 ## 连接 GitHub 远程
 
@@ -76,9 +74,6 @@ git -C dsh-memory push -u origin main
 
 git -C dsh-model-router remote set-url origin "https://github.com/$githubOwner/dsh-model-router.git"
 git -C dsh-model-router push -u origin main
-
-git -C dsh-code-index remote set-url origin "https://github.com/$githubOwner/dsh-codeindex.git"
-git -C dsh-code-index push -u origin main
 
 git -C dsh-codegraph remote set-url origin "https://github.com/$githubOwner/dsh-codegraph.git"
 git -C dsh-codegraph push -u origin main
