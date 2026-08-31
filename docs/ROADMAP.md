@@ -44,16 +44,18 @@
 
 完成条件：在多任务族、保留案例和真实 provider telemetry 上同时满足质量、失败率、延迟、成本、安全和回滚门槛。
 
-### `dsh-code-index`
+### `dsh-codegraph`
 
-状态：有界代码导航开发候选已完成。插件通过公开 FS、Tools、SystemPrompt 和 Loader 扩展点提供按需 `code_index`；词法声明/导入索引、目录/字节/结果上限、缓存并发合并、越界隔离和卸载检查均已覆盖，5 个测试文件、27 个测试和 8 个组合测试通过，干净 tarball smoke 通过。
+状态：官方 CodeGraph `1.6.0` 的 DSH 适配器已完成并切换到本机 `web`、`headless` profile。CodeGraph 负责 SQLite 符号图、增量索引和有界源码检索；插件只通过公开 MCP、Tools、SystemPrompt 和 Loader 契约提供生命周期、显式配置、日志可见性与 session 工作区隔离。单元/Loader/生命周期、官方运行时建图查询、干净 tarball 安装和真实 profile 启停均已通过。
 
-- 先用紧凑的符号、文件和依赖结果减少盲目广搜，再由权威 `read`、编译器或 LSP 确认细节。
-- 保持索引内存化、短 TTL 和显式 refresh，不把源代码正文写入日志或长期状态。
-- 用 held-out coding tasks 比较广泛搜索基线与索引路径的工具轮次、token、延迟、正确性和隐私事件。
-- 后续若需要语义图或增量持久索引，先提出公开能力契约，不把上游内部实现复制进插件。
+- 默认只暴露 `mcp__codegraph__codegraph_explore`，先用图结果减少盲目广搜，再由权威 `read`、编译器或测试确认细节。
+- 每次调用必须显式传入与当前 session 工作区规范路径完全相同的 `projectPath`；跨工作区、无 Agent、相对或不存在的路径在 MCP 分派前拒绝。
+- 固定并校验独立 CodeGraph 运行时，关闭 telemetry 和自动更新检查；索引由 operator 初始化，agent 不创建、修改或删除索引。
+- 用 held-out coding tasks 比较普通搜索、原 `dsh-code-index` 与 CodeGraph 三条路径的工具轮次、token、延迟、正确性、过期索引和隐私事件。
 
-完成条件：在未见任务上减少无效探索而不降低代码正确性、作用域隔离和可回滚性。
+`dsh-code-index` 保留在提交 `534d35f93554094eea8f7b91fa48a0cc3170f922` 作为无需外部运行时的回滚基线，profile 中不与 CodeGraph 同时启用。
+
+完成条件：在未见任务上减少无效探索而不降低代码正确性、作用域隔离、启动稳定性和可回滚性。
 
 ## Phase 2：长期记忆
 
@@ -84,7 +86,7 @@
 ## Phase 4：受控闭环优化
 
 - 用 `dsh-eval` 统一比较 memory、skill 和 compaction 的组合效果。
-- 将 `dsh-model-router` 与 `dsh-code-index` 作为可独立关闭的确定性基础能力纳入同一评测矩阵；不把启用成功当作收益证明。
+- 将 `dsh-model-router` 与 `dsh-codegraph` 作为可独立关闭的基础能力纳入同一评测矩阵，并保留 `dsh-code-index` 对照；不把启用成功当作收益证明。
 - 使用影子运行积累候选证据，限制自动修改频率和影响范围。
 - 只有低风险、可回滚且达到统计门槛的候选允许策略自动晋级。
 - 对数据漂移、模型版本变化、成本异常和安全事件设置熔断。

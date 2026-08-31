@@ -10,7 +10,8 @@
 | [`dsh-eval`](dsh-eval/) | 开发候选 | 已交付配对评测、内容身份、外部世界评分和本地 policy gate，并通过当前 DSH Session 事件兼容 smoke；自动晋级仍需外部隔离与可信 telemetry |
 | [`dsh-memory`](dsh-memory/) | 开发候选 | 已交付带来源、作用域和治理的长期记忆，并将同步 Markdown 投影改为增量发布；10k 记录 keyless 基准通过，真实模型收益仍未验证 |
 | [`dsh-model-router`](dsh-model-router/) | 开发候选，不自动晋级 | 按直接用户消息做确定性模型路由，在整轮工具续接期间固定选择，并用公开解析接口在模型调用前校验；尚未证明质量、成本或缓存收益 |
-| [`dsh-code-index`](dsh-code-index/) | 开发候选 | 提供有边界的按需 `code_index` 导航工具，减少反复广泛搜索和读取；基于词法声明/导入索引，不替代 `read`、编译器或 LSP |
+| [`dsh-codegraph`](dsh-codegraph/) | 当前代码导航实现；本机 `web`/`headless` 已启用 | 复用官方 CodeGraph `1.6.0` 的持久符号图与 MCP `explore`，适配层只负责 DSH 生命周期、提示、配置和严格的 session 工作区隔离 |
+| [`dsh-code-index`](dsh-code-index/) | 回滚基线；profile 未启用 | 原有内存词法导航实现，保留用于配对评测和无 CodeGraph 运行时场景，不与 `dsh-codegraph` 同时启用 |
 | `dsh-skill-evolution` | 规划中 | 生成、评审和晋级 skill 候选版本 |
 
 路线与先后关系见 [`docs/ROADMAP.md`](docs/ROADMAP.md)。
@@ -50,6 +51,9 @@ git -C dsh-model-router push -u origin main
 
 git -C dsh-code-index remote add origin "https://github.com/$githubOwner/dsh-code-index.git"
 git -C dsh-code-index push -u origin main
+
+git -C dsh-codegraph remote add origin "https://github.com/$githubOwner/dsh-codegraph.git"
+git -C dsh-codegraph push -u origin main
 
 git remote add origin "https://github.com/$githubOwner/dsh-plugins.git"
 git submodule sync --recursive

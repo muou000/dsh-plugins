@@ -22,3 +22,8 @@
 	path = dsh-code-index
 	url = ../dsh-code-index.git
 	branch = main
+
+[submodule "dsh-codegraph"]
+	path = dsh-codegraph
+	url = ../dsh-codegraph.git
+	branch = main

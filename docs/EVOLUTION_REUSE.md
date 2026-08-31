@@ -9,7 +9,7 @@
 | 能力 | 运行时职责 | 自进化闭环中的使用方式 |
 | --- | --- | --- |
 | `dsh-model-router` | 根据显式规则选择并固定整轮 provider/model，调用前精确校验 | 作为可版本化的 policy candidate；比较质量、失败、延迟、token、成本和安全后再审批 |
-| `dsh-code-index` | 有界、按需返回词法符号/文件/依赖导航结果 | 作为工具策略 candidate；比较广泛搜索基线的任务结果和工具开销，不把索引结果当正确性证明 |
+| `dsh-codegraph` | 经工作区 gate 调用固定版本 CodeGraph，按需返回持久符号图和有界源码结果 | 作为工具策略 candidate；同时比较普通搜索和 `dsh-code-index` 回滚基线，不把图结果当正确性证明 |
 | `improved-compact` / `dsh-memory` | 控制上下文与记忆投影的运行时成本 | 继续通过固定 manifest、回放和外部状态验证进入候选比较 |
 
 ## 采用边界
