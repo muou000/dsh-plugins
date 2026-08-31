@@ -1,24 +1,49 @@
 # dsh-plugins
 
-`dsh-plugins` 是 DeepSeek Harness（DSH）的仓库外插件集合，用于试验、评测并交付 agent 系统增强能力。顶层仓库负责统一规范、兼容版本和组合验证；每个一级子目录都是可独立开发、发布和回滚的 Git submodule。
+`dsh-plugins` 是 DeepSeek Harness（DSH）的仓库外插件集合，用于试验、评测并交付 agent 系统增强能力。顶层仓库负责统一规范、兼容版本和组合验证；每个一级插件目录都是可独立开发、发布和回滚的 Git submodule。
 
-## 插件目录
+## 插件清单
 
-| 仓库 | 状态 | 目标 |
-| --- | --- | --- |
-| [`improved-compact`](improved-compact/) | 开发候选，不自动晋级 | 已兼容当前 DSH，并增加请求上下文预算、可选输出上限和 8 KiB 工具结果外置默认值；压缩候选保真更高，但 token 节省和延迟仍弱于原生基线 |
-| [`dsh-eval`](dsh-eval/) | 开发候选 | 已交付配对评测、内容身份、外部世界评分和本地 policy gate，并通过当前 DSH Session 事件兼容 smoke；自动晋级仍需外部隔离与可信 telemetry |
-| [`dsh-memory`](dsh-memory/) | 开发候选 | 已交付带来源、作用域和治理的长期记忆，并将同步 Markdown 投影改为增量发布；10k 记录 keyless 基准通过，真实模型收益仍未验证 |
-| [`dsh-model-router`](dsh-model-router/) | 开发候选，不自动晋级 | 按直接用户消息做确定性模型路由，在整轮工具续接期间固定选择，并用公开解析接口在模型调用前校验；尚未证明质量、成本或缓存收益 |
-| [`dsh-codegraph`](dsh-codegraph/) | 当前代码导航实现；本机 `web`/`headless` 已启用 | 复用官方 CodeGraph `1.6.0` 的持久符号图与 MCP `explore`，适配层只负责 DSH 生命周期、提示、配置和严格的 session 工作区隔离 |
-| [`dsh-code-index`](dsh-code-index/) | 回滚基线；profile 未启用 | 原有内存词法导航实现，保留用于配对评测和无 CodeGraph 运行时场景，不与 `dsh-codegraph` 同时启用 |
-| `dsh-skill-evolution` | 规划中 | 生成、评审和晋级 skill 候选版本 |
+清单按路线图依赖顺序排列。“已纳入组合”表示插件已有独立本地 Git 仓库，并由顶层仓库以 submodule gitlink 固定版本；它不等同于已经发布或允许自动晋级。
+
+### 已纳入组合
+
+| 阶段 | 仓库 | 能力 | 当前定位 |
+| --- | --- | --- | --- |
+| Phase 1 | [`dsh-eval`](dsh-eval/) | 配对评测、外部世界评分和发布门禁 | 开发候选；真实模型、Unix、外部沙箱和 canary 尚未完成 |
+| Phase 1 | [`improved-compact`](improved-compact/) | 上下文预算、工具结果外置和压缩候选 | 开发候选，不自动晋级；保真较高，但 token 节省和延迟尚未达到原生基线 |
+| Phase 1 | [`dsh-model-router`](dsh-model-router/) | 确定性、整轮稳定的模型路由 | 开发候选，不自动晋级；真实 provider 的质量、成本和缓存收益尚未验证 |
+| Phase 1 | [`dsh-codegraph`](dsh-codegraph/) | 官方 CodeGraph 的工作区隔离 DSH 适配 | 当前代码导航实现；本机 `web` / `headless` profile 已启用 |
+| Phase 1 | [`dsh-code-index`](dsh-code-index/) | 无外部运行时的内存词法导航 | 回滚与配对评测基线；profile 未启用，不与 `dsh-codegraph` 同时启用 |
+| Phase 2 | [`dsh-memory`](dsh-memory/) | 带来源、作用域、治理和回放的长期记忆 | 开发候选；keyless 基准通过，通用真实模型收益尚未验证 |
+
+### 规划项
+
+| 阶段 | 计划仓库 | 能力 | 建仓条件 |
+| --- | --- | --- | --- |
+| Phase 3 | `dsh-skill-evolution` | 从真实失败证据生成、评审、晋级和回滚 skill 候选 | 开始实现并明确最小 DSH 扩展点后再建立独立仓库和 submodule |
+
+### 远程交付状态
+
+以下状态于 2026-08-31 通过实际远程查询核验。当前本地组合完整，但尚不能保证从 GitHub 全新执行 `git clone --recurse-submodules` 后取回顶层固定的全部插件版本。
+
+| 仓库 | 本地独立仓库 | GitHub 仓库 | 下一步 |
+| --- | --- | --- | --- |
+| `improved-compact` | 已有并已纳入 submodule | 已存在 | 推送本地领先的 1 个提交，使当前 gitlink 可取回 |
+| `dsh-eval` | 已有并已纳入 submodule | 待创建 | 创建空仓库，设置 `origin` 并推送 `main` |
+| `dsh-memory` | 已有并已纳入 submodule | 待创建 | 创建空仓库，设置 `origin` 并推送 `main` |
+| `dsh-model-router` | 已有并已纳入 submodule | 待创建 | 创建空仓库，替换本地裸仓库远程并推送 `main` |
+| `dsh-code-index` | 已有并已纳入 submodule | 待创建 | 创建空仓库，替换本地裸仓库远程并推送 `main` |
+| `dsh-codegraph` | 已有并已纳入 submodule | 待创建 | 创建空仓库，替换本地裸仓库远程并推送 `main` |
+| `dsh-skill-evolution` | 尚未建立 | 暂不需要 | 保持为路线图规划项，不加入 `.gitmodules` |
 
 路线与先后关系见 [`docs/ROADMAP.md`](docs/ROADMAP.md)。
 文章和现有插件的复用/禁用边界见 [`docs/EVOLUTION_REUSE.md`](docs/EVOLUTION_REUSE.md)。
 本轮上下文与 token 成本改造、实测结果和未覆盖边界见 [`docs/CONTEXT_COST_OPTIMIZATION_2026-08-30.md`](docs/CONTEXT_COST_OPTIMIZATION_2026-08-30.md)。
 
 ## 获取仓库
+
+以下命令以所有已纳入组合的插件提交均已推送到 `.gitmodules` 对应远程为前提：
 
 ```powershell
 git clone --recurse-submodules <dsh-plugins-repository-url>
@@ -36,31 +61,34 @@ git submodule update --init --recursive
 
 ## 连接 GitHub 远程
 
-本地初始化不会代替你创建 GitHub 仓库。创建对应空远程仓库后，先推送插件，再推送引用它的顶层仓库：
+本地初始化不会代替你创建 GitHub 仓库。创建对应空远程仓库后，先检查插件是否已有 `origin`：没有时使用 `remote add`，已有本地或旧远程时使用 `remote set-url`，然后先推送插件，再推送引用它的顶层仓库。
 
 ```powershell
 $githubOwner = '<github-user-or-organization>'
-git -C improved-compact remote add origin "https://github.com/$githubOwner/improved-compact.git"
+git -C improved-compact remote set-url origin "https://github.com/$githubOwner/improved-compact.git"
 git -C improved-compact push -u origin main
 
 git -C dsh-eval remote add origin "https://github.com/$githubOwner/dsh-eval.git"
 git -C dsh-eval push -u origin main
 
-git -C dsh-model-router remote add origin "https://github.com/$githubOwner/dsh-model-router.git"
+git -C dsh-memory remote add origin "https://github.com/$githubOwner/dsh-memory.git"
+git -C dsh-memory push -u origin main
+
+git -C dsh-model-router remote set-url origin "https://github.com/$githubOwner/dsh-model-router.git"
 git -C dsh-model-router push -u origin main
 
-git -C dsh-code-index remote add origin "https://github.com/$githubOwner/dsh-code-index.git"
+git -C dsh-code-index remote set-url origin "https://github.com/$githubOwner/dsh-code-index.git"
 git -C dsh-code-index push -u origin main
 
-git -C dsh-codegraph remote add origin "https://github.com/$githubOwner/dsh-codegraph.git"
+git -C dsh-codegraph remote set-url origin "https://github.com/$githubOwner/dsh-codegraph.git"
 git -C dsh-codegraph push -u origin main
 
-git remote add origin "https://github.com/$githubOwner/dsh-plugins.git"
+git remote set-url origin "https://github.com/$githubOwner/dsh-plugins.git"
 git submodule sync --recursive
 git push -u origin main
 ```
 
-`git submodule sync --recursive` 会让当前 checkout 按新增的顶层远程重新解析相对 URL。若插件与总控仓库不在同一 GitHub 用户或组织下，应改用插件的完整 URL。
+上例按当前 checkout 的实际远程状态区分了 `remote add` 与 `remote set-url`；其他环境应先以 `git -C <plugin> remote -v` 的结果为准。顶层仓库已经有 `origin` 时同样应使用 `remote set-url`，不要重复添加。`git submodule sync --recursive` 会让当前 checkout 按顶层远程重新解析相对 URL。若插件与总控仓库不在同一 GitHub 用户或组织下，应改用插件的完整 URL。
 
 ## 开发方式
 
