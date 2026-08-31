@@ -25,16 +25,16 @@
 
 ### 远程交付状态
 
-以下状态于 2026-08-31 通过实际远程查询核验。当前本地组合完整，但尚不能保证从 GitHub 全新执行 `git clone --recurse-submodules` 后取回顶层固定的全部插件版本。
+以下状态于 2026-08-31 通过实际远程查询和提交比对核验。所有已纳入组合的插件仓库均已建立，远端 `main` 包含顶层 gitlink 固定的提交。
 
-| 仓库 | 本地独立仓库 | GitHub 仓库 | 下一步 |
+| 仓库 | 本地独立仓库 | GitHub 仓库 | 交付状态 |
 | --- | --- | --- | --- |
-| `improved-compact` | 已有并已纳入 submodule | 已存在 | 推送本地领先的 1 个提交，使当前 gitlink 可取回 |
-| `dsh-eval` | 已有并已纳入 submodule | 待创建 | 创建空仓库，设置 `origin` 并推送 `main` |
-| `dsh-memory` | 已有并已纳入 submodule | 待创建 | 创建空仓库，设置 `origin` 并推送 `main` |
-| `dsh-model-router` | 已有并已纳入 submodule | 待创建 | 创建空仓库，替换本地裸仓库远程并推送 `main` |
-| `dsh-code-index` | 已有并已纳入 submodule | 待创建 | 创建空仓库，替换本地裸仓库远程并推送 `main` |
-| `dsh-codegraph` | 已有并已纳入 submodule | 待创建 | 创建空仓库，替换本地裸仓库远程并推送 `main` |
+| `improved-compact` | 已有并已纳入 submodule | 已存在 | 当前 `main` 和 gitlink 已推送 |
+| `dsh-eval` | 已有并已纳入 submodule | 已存在 | 当前 `main` 和 gitlink 已推送 |
+| `dsh-memory` | 已有并已纳入 submodule | 已存在 | 当前 `main` 和 gitlink 已推送 |
+| `dsh-model-router` | 已有并已纳入 submodule | 已存在 | 当前 `main` 和 gitlink 已推送；原本地裸仓库远程保留为 `local` |
+| `dsh-code-index` | 已有并已纳入 submodule | 已存在，仓库名为 `dsh-codeindex` | `.gitmodules` 显式映射远程名称；本地目录、包名和插件名保持 `dsh-code-index` |
+| `dsh-codegraph` | 已有并已纳入 submodule | 已存在 | 当前 `main` 和 gitlink 已推送；原本地裸仓库远程保留为 `local` |
 | `dsh-skill-evolution` | 尚未建立 | 暂不需要 | 保持为路线图规划项，不加入 `.gitmodules` |
 
 路线与先后关系见 [`docs/ROADMAP.md`](docs/ROADMAP.md)。
@@ -57,7 +57,7 @@ git submodule status --recursive
 git submodule update --init --recursive
 ```
 
-各插件使用形如 `../dsh-eval.git` 的相对远程地址，适合总控仓库和插件仓库位于同一个 GitHub 组织或用户下。如果实际托管位置不同，应在首次推送前修改 [`.gitmodules`](.gitmodules)。
+各插件使用形如 `../dsh-eval.git` 的相对远程地址，适合总控仓库和插件仓库位于同一个 GitHub 组织或用户下。`dsh-code-index` 因远程仓库实际命名为 `dsh-codeindex`，在 [`.gitmodules`](.gitmodules) 中保留了显式映射。如果实际托管位置不同，应在首次推送前修改对应 URL。
 
 ## 连接 GitHub 远程
 
@@ -68,16 +68,16 @@ $githubOwner = '<github-user-or-organization>'
 git -C improved-compact remote set-url origin "https://github.com/$githubOwner/improved-compact.git"
 git -C improved-compact push -u origin main
 
-git -C dsh-eval remote add origin "https://github.com/$githubOwner/dsh-eval.git"
+git -C dsh-eval remote set-url origin "https://github.com/$githubOwner/dsh-eval.git"
 git -C dsh-eval push -u origin main
 
-git -C dsh-memory remote add origin "https://github.com/$githubOwner/dsh-memory.git"
+git -C dsh-memory remote set-url origin "https://github.com/$githubOwner/dsh-memory.git"
 git -C dsh-memory push -u origin main
 
 git -C dsh-model-router remote set-url origin "https://github.com/$githubOwner/dsh-model-router.git"
 git -C dsh-model-router push -u origin main
 
-git -C dsh-code-index remote set-url origin "https://github.com/$githubOwner/dsh-code-index.git"
+git -C dsh-code-index remote set-url origin "https://github.com/$githubOwner/dsh-codeindex.git"
 git -C dsh-code-index push -u origin main
 
 git -C dsh-codegraph remote set-url origin "https://github.com/$githubOwner/dsh-codegraph.git"

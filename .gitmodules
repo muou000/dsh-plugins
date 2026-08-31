@@ -20,7 +20,7 @@
 
 [submodule "dsh-code-index"]
 	path = dsh-code-index
-	url = ../dsh-code-index.git
+	url = ../dsh-codeindex.git
 	branch = main
 
 [submodule "dsh-codegraph"]
