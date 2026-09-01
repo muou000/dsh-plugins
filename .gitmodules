@@ -22,3 +22,7 @@
 	path = dsh-codegraph
 	url = ../dsh-codegraph.git
 	branch = main
+[submodule "dsh-skill-evolution"]
+	path = dsh-skill-evolution
+	url = ../dsh-skill-evolution.git
+	branch = main

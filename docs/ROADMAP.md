@@ -76,12 +76,15 @@
 
 ### `dsh-skill-evolution`
 
-- 从真实失败轨迹生成有父版本的候选，而不修改已发布 skill。
-- 评测触发准确性、任务成功、负迁移、工具安全和 token 成本。
-- 支持候选 diff、人工评审、灰度、晋级、降级和回滚。
-- 检测针对评分器投机、保留集污染和指令无限膨胀。
+状态：开发期治理 0.2.0 已在独立仓库完成，并由顶层 submodule 固定到提交 `2f4a6f5`。它能导入内容寻址候选、记录父版本与来源、调用 `dsh-eval` 绑定准确 artifact/report、要求 human 确认 blocker，并在 `workspace-development` 内用 generation CAS 激活或回滚；同时随包提供保留名 `coevoskills` 管理 Skill。普通检查、真实 Loader 热重载、打包安装和本机 web/headless profile 替换旧全局 Skill 均已通过。本地评测仍不可自动晋级，真实 CoEvoSkills Docker/模型 canary 未运行。
 
-完成条件：候选在多任务族和未见案例上达到预注册门槛，并能一键恢复稳定版本。
+- 当前不会自动监听真实失败；受信调用方可直接导入候选，或通过严格 worker 协议调用实验性的 CoEvoSkills bundled-task adapter。
+- 固定管理 Skill 只说明治理流程，不是鉴权入口；旧脚本的全局 `promote/rollback` 没有搬入插件。
+- worker 只能生成候选，`dsh-eval` 是唯一评测裁决来源，human approval 才能改变工作区绑定。
+- 当前没有 human command UI、deactivate/revoke、quarantine、export、purge、灰度或 production/global 作用域。
+- 后续要评测触发准确性、任务成功、负迁移、工具安全和 token 成本，并检测评分器投机、保留集污染和指令无限膨胀。
+
+完成条件：先完成真实 CoEvoSkills canary、可鉴权的人类治理入口和解除绑定能力；生产候选还必须在多任务族和未见案例上达到预注册门槛，并具备外部隔离、可信 telemetry、canary 和恢复到无绑定/稳定版本的演练证据。
 
 ## Phase 4：受控闭环优化
 

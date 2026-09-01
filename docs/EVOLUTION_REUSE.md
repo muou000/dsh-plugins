@@ -40,16 +40,22 @@
 | SE-Agent | MIT, `c188ce1b...` | IDEAS ONLY | revision/recombination/refinement 与跨轨迹压缩可用于候选生成；单次模型裁判和启发式过滤不能晋级 |
 | EvoAgentX | MIT, `d77fd6b9...` | IDEAS ONLY | train/dev/test benchmark 与 optimizer registry 可参考；并发 evaluator 丢弃失败样本，不能复用其聚合结果 |
 | AutoSkill | audit snapshot 无 LICENSE | NO CODE REUSE | 可独立实现 frozen replay、promotion test、champion registry 概念；在许可证明确前不复制代码或资产 |
-| CoEvoSkills | Apache-2.0 audit snapshot | METHOD ONLY | generator + surrogate verifier + real-agent oracle 有启发，但仓库没有可直接导入的完整实现 |
+| CoEvoSkills | Apache-2.0, `da5a53db...` | ADAPT EXTERNAL WORKER | 当前已有 Python/Harbor 完整 runner；实验适配器只调用固定、干净 checkout 的 bundled task，生成结果仍只是候选，不能复用其 reward/PASS 作为 DSH 晋级证据 |
 | `evolution-replay` 等启发式评分 | accepted/rejected/evidence/input chars 加权 | AVOID AS EVAL | 不执行真实任务，不验证候选 artifact 或外部状态；只能作为队列排序或 UI 提示 |
 
 ## 实施顺序
 
-1. 固定 `dsh-eval` manifest/report/scorer 契约，并补 Unix、真实模型和外部 sandbox provider；持续把 source CLI 与 built SDK 作为独立兼容层回归。
-2. 新建独立 `dsh-evolution` orchestration 插件，只保存 candidate lineage、实验引用、审批、激活和回滚；不内嵌第二套 evaluator。
-3. 先接一个确定性候选生成器和人工审批，证明审计写入、幂等恢复、停止条件和回滚。
-4. 再以适配器方式试用 EvoSkill 生成与 `lmzhen` 状态/审批组件；每个依赖独立做 license、版本和故障注入验收。
-5. Harbor provider 完成 hostile-candidate 隔离与可信资源计量后，才讨论有限范围自动晋级。
+1. 保持 `dsh-eval` manifest/report/scorer 为唯一评测契约，并补 Unix、真实模型和外部 sandbox provider；持续把 source CLI 与 built SDK 作为独立兼容层回归。
+2. `dsh-skill-evolution` 开发期首版已建立独立本地仓库：保存内容寻址候选、lineage、评测绑定、human approval、工作区激活、回滚、worker job 和审计；不内嵌第二套 evaluator。
+3. 对 CoEvoSkills adapter 在 Linux/macOS、Docker、模型和 exact-clean `da5a53db...` checkout 上运行一个真实 bundled-task canary；完成前保持 experimental/NOT RUN。
+4. 补 human command 权限入口、deactivate/revoke/quarantine/export/purge，再评估自动失败采集；任何自动生成仍只产生候选。
+5. `dsh-eval` 外部 provider 完成 hostile-candidate 隔离与可信资源计量后，才讨论有限范围自动晋级和 production/global 作用域。
+
+## 2026-08-31 实现快照
+
+`dsh-skill-evolution` 已建立独立 Git 仓库，并由顶层以 submodule 固定到提交 `2f4a6f5`。0.2.0 的 Windows 工作树类型检查、43 项普通测试、真实 Cordis Loader 组合，以及从已安装 tarball 读取固定 `coevoskills`、解析 bundle patch、执行已安装入口和热卸载/重载的 smoke 已通过；完整证据在插件的 `docs/ACCEPTANCE_LEDGER.md`、`evals/reports/2026-08-31-local-verification.json` 和 `evals/reports/2026-08-31-profile-migration.json`。
+
+该版本随包提供固定 `coevoskills` 管理 Skill，并已在本机 web/headless profile 替换旧全局 filesystem Skill；旧目录按原树摘要移到扫描范围外的可恢复归档。默认仍禁止激活，只允许显式 `workspace-development`。本地 `dsh-eval` 报告固定 `promotionEligible: false`，需要 human 精确确认所有 blocker；没有可鉴权的人类命令 UI 或 production/global 激活。CoEvoSkills adapter 已做语法检查和 mock worker 协议测试，但真实 Python/Docker/Harbor/模型 canary 未运行。
 
 ## 当前不做
 
