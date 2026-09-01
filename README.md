@@ -15,7 +15,10 @@
 | [`dsh-skill-evolution`](dsh-skill-evolution/) | 管理不可变 Skill 候选、评测证据、人工审批和开发工作区回滚 | 仅支持 `workspace-development`，不提供 production/global 发布 |
 | [`improved-compact`](improved-compact/) | 替换基础上下文压缩 Provider，增加分层裁剪、摘要校验和请求预算保护 | 会改变基础 profile 的压缩与 spill 配置，真实项目收益需单独评测 |
 
-当前六个插件都有源码、测试和构建脚本，但没有 Git 发布标签。应将它们视为尚未正式发布的源码版本。克隆本仓库不会自动把任何插件启用到 DSH；安装、配置和停用方法以各插件 README 为准。
+六个插件通过 npm 包提供安装版本；Git 发布标签目前不作为安装依据。克隆本仓库不会自动把任何插件启用到 DSH；安装、配置和停用方法以各插件 README 为准。
+
+六个插件的 npm 发布名统一使用 `@muou000` scope，例如 `@muou000/dsh-codegraph`；
+插件内部名称、配置行 id、CLI 名称和持久化格式继续使用原有的无 scope 稳定标识。
 
 ## 环境要求
 

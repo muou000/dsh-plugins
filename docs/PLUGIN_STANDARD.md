@@ -27,7 +27,8 @@ dsh-<capability>/
 
 ## 包与安装清单
 
-- npm 包名和 Cordis 插件名使用 `dsh-<capability>`；名称一旦发布保持稳定。
+- npm 包名使用 `@muou000/dsh-<capability>`（历史项目 `improved-compact` 保留其 basename）；
+  Cordis 插件内部名称和 patch row `id` 保持无 scope 的稳定标识。名称一旦发布保持稳定。
 - 使用 ESM、TypeScript strict 模式，并生成 `lib/index.js` 与 `lib/index.d.ts`。
 - `@deepseek-ai/cordis` 同时声明为 `peerDependencies` 和 `devDependencies`，版本范围与支持的 DSH 版本一致。
 - `package.json` 至少提供 `build`、`typecheck`、`test`、`check`、`prepare` 和 `prepack`。
